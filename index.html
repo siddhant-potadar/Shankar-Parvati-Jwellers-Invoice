@@ -16,36 +16,50 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.1);
       border-radius: 8px;
       overflow: hidden;
+      /* Height constraint for A4 half height */
+      height: 148.5mm;
+      /* Ensure content doesn't overflow */
+      display: flex;
+      flex-direction: column;
     }
     .brand-header {
       background-color: #f8e9c0;
       padding: 0;
       width: 100%;
-      display: block;
+      /* Fixed height instead of percentage to prevent cropping */
+      flex-shrink: 0;
     }
     .brand-image {
       width: 100%;
+      /* Preserve aspect ratio without cropping */
+      object-fit: contain;
       display: block;
+      max-height: 80px;
     }
     .invoice-title-block {
       background-color: #8b0000;
       color: white;
-      padding: 5px 10px;
+      padding: 2px 5px;
       text-align: center;
+      flex-shrink: 0;
     }
     .invoice-title {
-      font-size: 24px;
+      font-size: 18px;
       margin: 0;
       font-weight: bold;
     }
     .invoice-body {
-      padding: 10px;
+      padding: 5px 10px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
     .customer-details {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10px;
-      padding-bottom: 10px;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
       border-bottom: 1px solid #eee;
     }
     .bill-info {
@@ -57,11 +71,12 @@
     }
     .bill-info h3, .invoice-meta h3 {
       margin-top: 0;
-      margin-bottom: 5px;
+      margin-bottom: 2px;
+      font-size: 14px;
     }
     .editable-field {
       border: 1px solid #ddd;
-      padding: 3px 5px;
+      padding: 1px 3px;
       border-radius: 4px;
       margin: 1px 0;
       display: inline-block;
@@ -75,26 +90,32 @@
     .label {
       font-weight: bold;
       margin-right: 5px;
+      font-size: 13px;
     }
     p {
-      margin: 5px 0;
+      margin: 3px 0;
+      font-size: 13px;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 10px 0;
+      margin: 5px 0;
+      table-layout: fixed;
     }
     th {
       background-color: #f2f2f2;
-      padding: 6px;
+      padding: 3px;
       text-align: left;
       border-bottom: 2px solid #ddd;
-      font-size: 14px;
+      font-size: 12px;
     }
     td {
-      padding: 6px;
+      padding: 3px;
       border-bottom: 1px solid #eee;
-      font-size: 14px;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .editable-cell {
       background-color: #fafafa;
@@ -106,7 +127,7 @@
       background-color: #fff;
     }
     .totals {
-      margin-top: 10px;
+      margin-top: 5px;
       display: flex;
       justify-content: flex-end;
     }
@@ -114,21 +135,23 @@
       width: 300px;
     }
     .totals-table td {
-      padding: 4px;
+      padding: 2px;
+      font-size: 12px;
     }
     .totals-table .grand-total {
       font-weight: bold;
-      font-size: 16px;
+      font-size: 14px;
       border-top: 2px solid #8b0000;
     }
     .signature {
-      margin-top: 15px;
+      margin-top: 5px;
       text-align: right;
-      padding-top: 10px;
+      padding-top: 5px;
       border-top: 1px solid #eee;
     }
     .signature p {
       margin: 0;
+      font-size: 12px;
     }
     .highlight {
       color: #8b0000;
@@ -138,12 +161,12 @@
       background-color: #8b0000;
       color: white;
       border: none;
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
-      margin-top: 5px;
-      font-size: 13px;
+      margin-top: 3px;
+      font-size: 12px;
     }
     .btn:hover {
       background-color: #a50000;
@@ -154,9 +177,9 @@
       font-weight: bold;
     }
     .action-buttons {
-      margin-top: 15px;
+      margin-top: 5px;
       display: flex;
-      gap: 10px;
+      gap: 5px;
     }
     #loading-indicator {
       display: none;
@@ -198,6 +221,8 @@
         left: 0;
         top: 0;
         box-shadow: none;
+        height: 148.5mm !important;
+        width: 210mm !important;
       }
       .btn, .delete-row, .action-buttons {
         display: none !important;
@@ -270,12 +295,6 @@
         </tbody>
       </table>
       
-      <div class="action-buttons">
-        <button class="btn" id="add-row">+ Add New Row</button>
-        <button class="btn" id="export-png">Export as PNG</button>
-        <button class="btn" id="print-invoice">Print Invoice</button>
-      </div>
-      
       <div class="totals">
         <table class="totals-table">
           <tr>
@@ -303,7 +322,13 @@
       
       <div class="signature">
         <p>Authorized Signature</p>
-        <hr style="width: 150px; margin-left: auto; margin-top: 5px; margin-bottom: 0; border-top: 1px solid #333;">
+        <hr style="width: 150px; margin-left: auto; margin-top: 3px; margin-bottom: 0; border-top: 1px solid #333;">
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn" id="add-row">+ Add New Row</button>
+        <button class="btn" id="export-png">Export as PNG</button>
+        <button class="btn" id="print-invoice">Print Invoice</button>
       </div>
     </div>
   </div>
